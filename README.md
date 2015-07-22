@@ -5,7 +5,7 @@ This is a first pass of a library that returns a golang channel that contains a 
 I wanted a system call implementation that would let me make the call then look at the output later.
 ####Use
 Example use:
-```
+```go
 cmd_obj := New("date", []string{}, "", 10)
 out_chan, err := cmd_obj.Run()
 if err != nil {
