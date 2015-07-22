@@ -8,7 +8,7 @@ import (
 )
 
 type (
-	Worker struct {
+	Messenger struct {
 		Cmd              string //as a single string
 		Cmdargs          []string
 		Rundir           string
@@ -16,8 +16,8 @@ type (
 	}
 )
 
-func New(cmd string, cmdargs []string, rundir string, chanBufferLength int) *Worker {
-	return &Worker{
+func New(cmd string, cmdargs []string, rundir string, chanBufferLength int) *Messenger {
+	return &Messenger{
 		Cmd:              cmd,
 		Cmdargs:          cmdargs,
 		Rundir:           rundir,
@@ -25,14 +25,14 @@ func New(cmd string, cmdargs []string, rundir string, chanBufferLength int) *Wor
 	}
 }
 
-func (worker *Worker) Run() (chan string, error) {
+func (messenger *Messenger) Run() (chan string, error) {
 
-	output_channel := make(chan string, worker.ChanBufferLength)
+	output_channel := make(chan string, messenger.ChanBufferLength)
 
-	if worker.Rundir != "" {
-		os.Chdir(worker.Rundir)
+	if messenger.Rundir != "" {
+		os.Chdir(messenger.Rundir)
 	}
-	cmd := exec.Command(worker.Cmd, worker.Cmdargs...)
+	cmd := exec.Command(messenger.Cmd, messenger.Cmdargs...)
 	cmdReader, err := cmd.StdoutPipe()
 	if err != nil {
 		log.Println("Error creating StdoutPipe for Cmd", err)
